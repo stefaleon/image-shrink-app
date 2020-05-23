@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, Menu } = require('electron');
 
 // Set env
 process.env.NODE_ENV = 'development';
@@ -7,8 +7,10 @@ const isDev = process.env.NODE_ENV !== 'production' ? true : false;
 const isMac = process.platform === 'darwin' ? true : false;
 const isWin32 = process.platform === 'win32' ? true : false;
 
+let mainWindow;
+
 function createMainWindow() {
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     title: 'ImageShrink',
     width: 500,
     height: 600,
@@ -20,7 +22,27 @@ function createMainWindow() {
   mainWindow.loadFile('./app/index.html');
 }
 
-app.on('ready', createMainWindow);
+app.on('ready', () => {
+  createMainWindow();
+
+  const mainMenu = Menu.buildFromTemplate(menu);
+  Menu.setApplicationMenu(mainMenu);
+
+  mainWindow.on('close', () => (mainWindow = null));
+});
+
+const menu = [
+  ...(isMac ? [{ role: 'appMenu' }] : []),
+  {
+    label: 'File',
+    submenu: [
+      {
+        label: 'Quit',
+        click: () => app.quit(),
+      },
+    ],
+  },
+];
 
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
