@@ -51,5 +51,15 @@
     </div>
 
     <script src="js/materialize.min.js"></script>
+    <script>
+      const path = require('path');
+      const os = require('os');
+      const { ipcRenderer } = require('electron');
+
+      document.getElementById('output-path').innerText = path.join(
+        os.homedir(),
+        'imageshrink'
+      );
+    </script>
   </body>
 </html>
