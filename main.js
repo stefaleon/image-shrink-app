@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, globalShortcut } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 
 // Set env
 process.env.NODE_ENV = 'development';
@@ -97,6 +97,10 @@ const menu = [
       ]
     : []),
 ];
+
+ipcMain.on('image:minimize', (e, options) => {
+  console.log(options);
+});
 
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
