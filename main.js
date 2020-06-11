@@ -8,7 +8,7 @@ const slash = require('slash');
 const log = require('electron-log');
 
 // Set env
-process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = 'development';
 
 const isDev = process.env.NODE_ENV !== 'production' ? true : false;
 const isMac = process.platform === 'darwin' ? true : false;
@@ -55,7 +55,10 @@ app.on('ready', () => {
   createMainWindow();
 
   const mainMenu = Menu.buildFromTemplate(menu);
-  Menu.setApplicationMenu(mainMenu);
+
+  // Menu.setApplicationMenu(mainMenu);
+  Menu.setApplicationMenu(null);
+  mainWindow.setMenu(mainMenu);
 
   mainWindow.on('close', () => (mainWindow = null));
 });
